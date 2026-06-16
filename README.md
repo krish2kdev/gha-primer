@@ -1,2 +1,7 @@
-# multi-job-workflow-gha
-multi-job-workflow-gha
+# GHA-Primer
+Simple workflow
+Multi Job Workflow
+Workflow with Artifacts
+CICD Workflow
+Custom Action
+# Courtesy - LinkedIn
