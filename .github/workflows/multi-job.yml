@@ -1,5 +1,6 @@
-name: multi-job-workflow
+name: Multi-Job Workflow
 on: [push]
+
 jobs:
   ubuntu:
     runs-on: ubuntu-latest
@@ -12,11 +13,14 @@ jobs:
         with:
           go-version: "1.20"
 
+      - name: Format Go code
+        run: make format
+
       - name: Build Go binary
-        run: go build -o main main.go
+        run: make build
 
       - name: Run binary
-        run: ./main
+        run: make run
 
   windows:
     runs-on: windows-latest
@@ -29,11 +33,14 @@ jobs:
         with:
           go-version: "1.20"
 
+      - name: Format Go code
+        run: make format
+
       - name: Build Go binary
-        run: go build -o main.exe main.go
+        run: make build
 
       - name: Run binary
-        run: .\main.exe
+        run: make run
 
   macos:
     runs-on: macos-latest
@@ -46,11 +53,14 @@ jobs:
         with:
           go-version: "1.20"
 
+      - name: Format Go code
+        run: make format
+
       - name: Build Go binary
-        run: go build -o main main.go
+        run: make build
 
       - name: Run binary
-        run: ./main
+        run: make run
 
   cross-compile:
     runs-on: ubuntu-latest
@@ -70,3 +80,4 @@ jobs:
           GOOS=linux GOARCH=amd64 go build -o main-linux main.go
           GOOS=windows GOARCH=amd64 go build -o main-windows.exe main.go
           GOOS=darwin GOARCH=amd64 go build -o main-macos-intel main.go
+          make clean
