@@ -1,0 +1,77 @@
+name: Environment Variables
+
+env:
+  GLOBAL_MESSAGE: "🚀 The Environment Variable Explorer!"
+  JOB_MESSAGE: "This value will be overridden by the job"
+  PLATFORM:  "This value will be overridden by the job"
+  STEP_MESSAGE: "This value will be overridden by the step"
+  MODE: "development"
+
+on: [push]
+
+jobs:
+  explore-on-ubuntu:
+    name: 🔍 Explore on Ubuntu
+    runs-on: ubuntu-24.04
+
+    env:
+      GLOBAL_MESSAGE: "Ubuntu Job Override"
+      JOB_MESSAGE: "Job-level variable for Ubuntu"
+      PLATFORM: "ubuntu-latest"
+
+    steps:
+      - name: 📦 Default GitHub Environment Variables
+        run: |
+          echo "📁 GITHUB_WORKSPACE  : $GITHUB_WORKSPACE"
+          echo "📣 GITHUB_EVENT_NAME : $GITHUB_EVENT_NAME"
+          echo "👤 GITHUB_ACTOR      : $GITHUB_ACTOR"
+          echo "🆔 GITHUB_JOB        : $GITHUB_JOB"
+
+      - name: 🔎 Job Level Environment
+        run: |
+          echo "🌍 GLOBAL_MESSAGE (shell) : $GLOBAL_MESSAGE"
+          echo "📦 JOB_MESSAGE (shell)    : $JOB_MESSAGE"
+          echo "🖥️ PLATFORM (shell)       : $PLATFORM"
+          echo "⚙️ MODE (shell)           : $MODE"
+
+      - name: 🔧 Step Level Environment with YAML Interpolation
+        env:
+          GLOBAL_MESSAGE: "Step Override: ${{ env.MODE }} mode"
+          STEP_MESSAGE: "From step in ${{ env.PLATFORM }}"
+        run: |
+          echo "🌍 GLOBAL_MESSAGE (YAML interpolated) : ${{ env.GLOBAL_MESSAGE }}"
+          echo "🔧 STEP_MESSAGE (YAML interpolated)   : ${{ env.STEP_MESSAGE }}"
+          echo "⚙️ MODE (YAML interpolated)           : ${{ env.MODE }}"
+
+  explore-on-windows:
+    name: 🔍 Explore on Windows
+    runs-on: windows-latest
+
+    env:
+      GLOBAL_MESSAGE: "Windows Job Override"
+      JOB_MESSAGE: "Job-level variable for Windows"
+      PLATFORM: "windows-latest"
+
+    steps:
+      - name: 📦 Default GitHub Environment Variables
+        run: |
+          Write-Output "📁 GITHUB_WORKSPACE  : $Env:GITHUB_WORKSPACE"
+          Write-Output "📣 GITHUB_EVENT_NAME : $Env:GITHUB_EVENT_NAME"
+          Write-Output "👤 GITHUB_ACTOR      : $Env:GITHUB_ACTOR"
+          Write-Output "🆔 GITHUB_JOB        : $Env:GITHUB_JOB"
+
+      - name: 🔎 Job Level Environment
+        run: |
+          Write-Output "🌍 GLOBAL_MESSAGE (shell) : $Env:GLOBAL_MESSAGE"
+          Write-Output "📦 JOB_MESSAGE (shell)    : $Env:JOB_MESSAGE"
+          Write-Output "🖥️ PLATFORM (shell)       : $Env:PLATFORM"
+          Write-Output "⚙️ MODE (shell)           : $Env:MODE"
+
+      - name: 🔧 Step Level Environment with YAML Interpolation
+        env:
+          GLOBAL_MESSAGE: "Step Override: ${{ env.MODE }} mode"
+          STEP_MESSAGE: "From step in ${{ env.PLATFORM }}"
+        run: |
+          Write-Output "🌍 GLOBAL_MESSAGE (YAML interpolated) : ${{ env.GLOBAL_MESSAGE }}"
+          Write-Output "🔧 STEP_MESSAGE (YAML interpolated)   : ${{ env.STEP_MESSAGE }}"
+          Write-Output "⚙️ MODE (YAML interpolated)           : ${{ env.MODE }}"
